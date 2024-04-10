@@ -39,6 +39,8 @@ public class Doctor {
     @Embedded
     private Address endereco;
 
+    private Boolean ativo;
+
     public Doctor(MedicalRegistrationDTO data) {
         this.nome = data.nome();
         this.email = data.email();
@@ -46,6 +48,7 @@ public class Doctor {
         this.crm = data.crm();
         this.especialidade = data.especialidade();
         this.endereco = new Address(data.endereco());
+        this.ativo = true;
     }
 
     public void updateData(MedicalUpdateDTO data) {
@@ -59,6 +62,10 @@ public class Doctor {
             this.endereco.updateData(data.endereco());
         }
         
+    }
+
+    public void softDelete() {
+        this.ativo = false;
     }
 
 }

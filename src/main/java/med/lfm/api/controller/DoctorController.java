@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,10 +42,21 @@ public class DoctorController {
     }
  */
 
+/* 
+    LISTAR TODOS OS MÉDICOS
     @GetMapping
     public Page<DoctorListingDTO> getDoctors(@PageableDefault(size = 10, sort = {"nome"}) Pageable pagination) {
         return repository.findAll(pagination).map(DoctorListingDTO::new);
     }
+ */
+
+
+// LISTAR MEDICOS ATIVOS
+    @GetMapping
+    public Page<DoctorListingDTO> getDoctors(@PageableDefault(size = 10, sort = {"nome"}) Pageable pagination) {
+        return repository.findAllByAtivoTrue(pagination).map(DoctorListingDTO::new);
+    }
+
 
     @PutMapping
     @Transactional
@@ -51,5 +64,25 @@ public class DoctorController {
         var doctor = repository.getReferenceById(data.id());
         doctor.updateData(data);
     }
+
+
+    // DELETE PERMANENTE
+/*     
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deleteDoctor(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
+     */
+
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deleteDoctor(@PathVariable Long id) {
+        var doctor = repository.getReferenceById(id);
+        doctor.softDelete();
+    }
+
+    
 
 }
