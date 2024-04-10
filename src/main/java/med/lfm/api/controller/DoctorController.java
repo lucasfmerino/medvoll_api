@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import med.lfm.api.doctor.Doctor;
 import med.lfm.api.doctor.DoctorListingDTO;
 import med.lfm.api.doctor.DoctorRepository;
 import med.lfm.api.doctor.MedicalRegistrationDTO;
+import med.lfm.api.doctor.MedicalUpdateDTO;
 
 @RestController
 @RequestMapping("medicos")
@@ -41,6 +43,13 @@ public class DoctorController {
     @GetMapping
     public Page<DoctorListingDTO> getDoctors(@PageableDefault(size = 10, sort = {"nome"}) Pageable pagination) {
         return repository.findAll(pagination).map(DoctorListingDTO::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void updateDoctor(@RequestBody @Valid MedicalUpdateDTO data) {
+        var doctor = repository.getReferenceById(data.id());
+        doctor.updateData(data);
     }
 
 }

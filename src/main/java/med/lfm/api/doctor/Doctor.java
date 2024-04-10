@@ -48,4 +48,17 @@ public class Doctor {
         this.endereco = new Address(data.endereco());
     }
 
+    public void updateData(MedicalUpdateDTO data) {
+        if (data.nome() != null) {
+            this.nome = data.nome();
+        }
+        if (data.telefone() != null) {
+            this.telefone = data.telefone();
+        }
+        if (data.endereco() != null) {
+            this.endereco.updateData(data.endereco());
+        }
+        
+    }
+
 }
