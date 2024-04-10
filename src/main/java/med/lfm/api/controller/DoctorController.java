@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import med.lfm.api.doctor.Doctor;
 import med.lfm.api.doctor.DoctorRepository;
 import med.lfm.api.doctor.MedicalRegistrationDTO;
@@ -18,7 +20,8 @@ public class DoctorController {
     private DoctorRepository repository;
 
     @PostMapping
-    public void register(@RequestBody MedicalRegistrationDTO data) {
+    @Transactional
+    public void register(@RequestBody @Valid MedicalRegistrationDTO data) {
         repository.save(new Doctor(data));
     }
 }
