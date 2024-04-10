@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +36,7 @@ public class PatientController {
 
     @GetMapping
     public Page<PatientListingDTO> getPatients(@PageableDefault(size = 10, sort = {"nome"}) Pageable pagination) {
-        return repository.findAll(pagination).map(PatientListingDTO::new);
+        return repository.findAllByAtivoTrue(pagination).map(PatientListingDTO::new);
     }
 
     @PutMapping
@@ -42,5 +44,12 @@ public class PatientController {
     public void updatePatient(@RequestBody @Valid PatientUpdateDTO data) {
         var patient = repository.getReferenceById(data.id());
         patient.updateData(data);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deleteDoctor(@PathVariable Long id) {
+        var patient = repository.getReferenceById(id);
+        patient.softDelete();
     }
 }

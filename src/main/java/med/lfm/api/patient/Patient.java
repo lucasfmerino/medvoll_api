@@ -35,6 +35,8 @@ public class Patient {
     @Embedded
     private Address endereco;
 
+    private Boolean ativo;
+
 
     public Patient(PatientRegistrationDTO data) {
         this.nome = data.nome();
@@ -42,6 +44,7 @@ public class Patient {
         this.telefone = data.telefone();
         this.cpf = data.cpf();
         this.endereco = new Address(data.endereco());
+        this.ativo = true;
     }
 
     public void updateData(PatientUpdateDTO data) {
@@ -55,5 +58,9 @@ public class Patient {
             this.endereco.updateData(data.endereco());
         }
         
+    }
+
+    public void softDelete() {
+        this.ativo = false;
     }
 }
