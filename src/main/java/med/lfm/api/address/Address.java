@@ -19,4 +19,13 @@ public class Address {
     private String cidade;
     private String uf;
 
+    public Address(AddressDTO data) {
+        this.logradouro = data.logradouro();
+        this.bairro = data.bairro();
+        this.cep = data.cep();
+        this.numero = data.numero();
+        this.complemento = data.complemento();
+        this.cidade = data.cidade();
+        this.uf = data.uf();
+    }
 }
