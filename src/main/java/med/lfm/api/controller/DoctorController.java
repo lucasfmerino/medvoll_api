@@ -1,6 +1,9 @@
 package med.lfm.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.lfm.api.doctor.Doctor;
+import med.lfm.api.doctor.DoctorListingDTO;
 import med.lfm.api.doctor.DoctorRepository;
 import med.lfm.api.doctor.MedicalRegistrationDTO;
 
@@ -24,4 +28,10 @@ public class DoctorController {
     public void register(@RequestBody @Valid MedicalRegistrationDTO data) {
         repository.save(new Doctor(data));
     }
+
+    @GetMapping
+    public List<DoctorListingDTO> getDoctors() {
+        return repository.findAll().stream().map(DoctorListingDTO::new).toList();
+    }
+
 }
