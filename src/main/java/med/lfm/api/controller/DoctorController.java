@@ -33,8 +33,10 @@ public class DoctorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> register(@RequestBody @Valid MedicalRegistrationDTO data, UriComponentsBuilder uriBuilder) {
-        
+    public ResponseEntity<?> register(
+            @RequestBody @Valid MedicalRegistrationDTO data,
+            UriComponentsBuilder uriBuilder) {
+
         var doctor = new Doctor(data);
         repository.save(doctor);
         var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(doctor.getId()).toUri();
@@ -42,30 +44,38 @@ public class DoctorController {
         return ResponseEntity.created(uri).body(new MedicalDetailsDTO(doctor));
     }
 
-/* 
-    SEM PAGINAÇÃO
-    @GetMapping
-    public List<DoctorListingDTO> getDoctors() {
-        return repository.findAll().stream().map(DoctorListingDTO::new).toList();
-    }
- */
+    /*
+     * SEM PAGINAÇÃO
+     * 
+     * @GetMapping
+     * public List<DoctorListingDTO> getDoctors() {
+     * return repository.findAll().stream().map(DoctorListingDTO::new).toList();
+     * }
+     */
 
-/* 
-    LISTAR TODOS OS MÉDICOS
-    @GetMapping
-    public Page<DoctorListingDTO> getDoctors(@PageableDefault(size = 10, sort = {"nome"}) Pageable pagination) {
-        return repository.findAll(pagination).map(DoctorListingDTO::new);
-    }
- */
+    /*
+     * LISTAR TODOS OS MÉDICOS
+     * 
+     * @GetMapping
+     * public Page<DoctorListingDTO> getDoctors(@PageableDefault(size = 10, sort =
+     * {"nome"}) Pageable pagination) {
+     * return repository.findAll(pagination).map(DoctorListingDTO::new);
+     * }
+     */
 
-
-// LISTAR MEDICOS ATIVOS
+    // LISTAR MEDICOS ATIVOS
     @GetMapping
-    public ResponseEntity<Page<DoctorListingDTO>> getDoctors(@PageableDefault(size = 10, sort = {"nome"}) Pageable pagination) {
-        var page =  repository.findAllByAtivoTrue(pagination).map(DoctorListingDTO::new);
+    public ResponseEntity<Page<DoctorListingDTO>> getDoctors(
+            @PageableDefault(size = 10, sort = { "nome" }) Pageable pagination) {
+        var page = repository.findAllByAtivoTrue(pagination).map(DoctorListingDTO::new);
         return ResponseEntity.ok(page);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getDoctorById(@PathVariable Long id) {
+        var doctor = repository.getReferenceById(id);
+        return ResponseEntity.ok(new MedicalDetailsDTO(doctor));
+    }
 
     @PutMapping
     @Transactional
@@ -75,16 +85,15 @@ public class DoctorController {
         return ResponseEntity.ok(new MedicalDetailsDTO(doctor));
     }
 
-
     // DELETE PERMANENTE
-/*     
-    @DeleteMapping("/{id}")
-    @Transactional
-    public void deleteDoctor(@PathVariable Long id) {
-        repository.deleteById(id);
-    }
+    /*
+     * @DeleteMapping("/{id}")
+     * 
+     * @Transactional
+     * public void deleteDoctor(@PathVariable Long id) {
+     * repository.deleteById(id);
+     * }
      */
-
 
     @DeleteMapping("/{id}")
     @Transactional
@@ -93,7 +102,5 @@ public class DoctorController {
         doctor.softDelete();
         return ResponseEntity.noContent().build();
     }
-
-    
 
 }
