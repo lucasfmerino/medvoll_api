@@ -1,4 +1,4 @@
-package med.lfm.api.patient;
+package med.lfm.api.domain.patient;
 
 public record PatientListingDTO(Long id, String nome, String email, String cpf) {
     public PatientListingDTO(Patient patient) {

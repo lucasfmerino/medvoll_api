@@ -1,7 +1,7 @@
-package med.lfm.api.doctor;
+package med.lfm.api.domain.doctor;
 
 import jakarta.validation.constraints.NotNull;
-import med.lfm.api.address.AddressDTO;
+import med.lfm.api.domain.address.AddressDTO;
 
 public record MedicalUpdateDTO(
         @NotNull Long id,

@@ -1,4 +1,4 @@
-package med.lfm.api.address;
+package med.lfm.api.domain.address;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

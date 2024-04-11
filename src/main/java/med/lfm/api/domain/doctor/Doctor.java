@@ -1,4 +1,4 @@
-package med.lfm.api.doctor;
+package med.lfm.api.domain.doctor;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -12,7 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.lfm.api.address.Address;
+import med.lfm.api.domain.address.Address;
+
 
 @Table(name = "medicos")
 @Entity(name = "Medico")

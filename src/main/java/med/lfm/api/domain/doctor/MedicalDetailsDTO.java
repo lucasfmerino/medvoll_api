@@ -1,6 +1,6 @@
-package med.lfm.api.doctor;
+package med.lfm.api.domain.doctor;
 
-import med.lfm.api.address.Address;
+import med.lfm.api.domain.address.Address;
 
 public record MedicalDetailsDTO(Long id, String nome, String email, String crm, String telefone,
         Specialism especialidade, Address endereco) {

@@ -1,11 +1,11 @@
-package med.lfm.api.patient;
+package med.lfm.api.domain.patient;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import med.lfm.api.address.AddressDTO;
+import med.lfm.api.domain.address.AddressDTO;
 
 public record PatientRegistrationDTO(
         @NotBlank String nome,

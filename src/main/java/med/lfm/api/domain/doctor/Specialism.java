@@ -1,4 +1,4 @@
-package med.lfm.api.doctor;
+package med.lfm.api.domain.doctor;
 
 public enum Specialism {
 

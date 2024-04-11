@@ -1,4 +1,4 @@
-package med.lfm.api.patient;
+package med.lfm.api.domain.patient;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
