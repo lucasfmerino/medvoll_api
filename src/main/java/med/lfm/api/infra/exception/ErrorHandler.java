@@ -1,4 +1,4 @@
-package med.lfm.api.infra;
+package med.lfm.api.infra.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
