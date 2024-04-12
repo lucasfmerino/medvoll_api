@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import med.lfm.api.domain.user.AuthDTO;
 import med.lfm.api.domain.user.User;
 import med.lfm.api.infra.security.TokenService;
+import med.lfm.api.infra.security.TokenDTO;
 
 @RestController
 @RequestMapping("/login")
@@ -26,9 +27,13 @@ public class AuthController {
     
     @PostMapping
     public ResponseEntity<?> login(@RequestBody @Valid AuthDTO data) {
-        var token = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
-        var authentication = manager.authenticate(token);
+        var authToken = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+        var authentication = manager.authenticate(authToken);
 
-        return ResponseEntity.ok(tokenService.generateToken((User) authentication.getPrincipal()));
+        // return ResponseEntity.ok(tokenService.generateToken((User) authentication.getPrincipal()));
+
+        var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new TokenDTO(tokenJWT));
     }
 }
