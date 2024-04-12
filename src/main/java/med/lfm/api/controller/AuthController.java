@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import med.lfm.api.domain.user.AuthDTO;
+import med.lfm.api.domain.user.User;
+import med.lfm.api.infra.security.TokenService;
 
 @RestController
 @RequestMapping("/login")
@@ -18,13 +20,15 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager manager;
+
+    @Autowired
+    private TokenService tokenService;
     
     @PostMapping
     public ResponseEntity<?> login(@RequestBody @Valid AuthDTO data) {
         var token = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
         var authentication = manager.authenticate(token);
 
-        return ResponseEntity.ok().build();
-        // Ainda falta implementar o retorno da token.
+        return ResponseEntity.ok(tokenService.generateToken((User) authentication.getPrincipal()));
     }
 }
