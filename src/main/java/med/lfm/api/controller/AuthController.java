@@ -27,13 +27,17 @@ public class AuthController {
     
     @PostMapping
     public ResponseEntity<?> login(@RequestBody @Valid AuthDTO data) {
-        var authToken = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
-        var authentication = manager.authenticate(authToken);
+        try{
 
-        // return ResponseEntity.ok(tokenService.generateToken((User) authentication.getPrincipal()));
-
-        var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
-
-        return ResponseEntity.ok(new TokenDTO(tokenJWT));
+            var authToken = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+            var authentication = manager.authenticate(authToken);
+    
+            var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
+    
+            return ResponseEntity.ok(new TokenDTO(tokenJWT));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
