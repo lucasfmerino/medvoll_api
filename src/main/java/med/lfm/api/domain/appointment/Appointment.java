@@ -2,8 +2,10 @@ package med.lfm.api.domain.appointment;
 
 import java.time.LocalDateTime;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,5 +41,14 @@ public class Appointment {
     private Patient paciente;
 
     private LocalDateTime data;
+
+    @Column(name = "motivo_cancelamento")
+    @Enumerated(EnumType.STRING)
+    private CancellationReason motivoCancelamento;
+
+
+    public void cancel(CancellationReason motivo) {
+        this.motivoCancelamento = motivo;
+    }
 
 }
