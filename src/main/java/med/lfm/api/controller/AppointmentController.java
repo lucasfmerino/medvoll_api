@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.lfm.api.domain.appointment.AppointmentDetailsDTO;
 import med.lfm.api.domain.appointment.AppointmentSchedulingDTO;
 import med.lfm.api.domain.appointment.CancelingAppointmentDTO;
 import med.lfm.api.domain.appointment.Schedule;
@@ -25,8 +24,8 @@ public class AppointmentController {
     @PostMapping
     @Transactional
     public ResponseEntity<?> appointmentScheduling(@RequestBody @Valid AppointmentSchedulingDTO data) {
-        schedule.toSchedule(data);
-        return ResponseEntity.ok(new AppointmentDetailsDTO(null, null, null, null));
+        var dto = schedule.toSchedule(data);
+        return ResponseEntity.ok(dto);
     }
 
 
