@@ -11,21 +11,19 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     Page<Doctor> findAllByAtivoTrue(Pageable pagination);
 
-
     @Query("""
             SELECT m FROM Medico m
-            WHERE m.ativo = 1
+            WHERE m.ativo = true
             AND m.especialidade = :especialidade
-            AND m.id NOT IN(
+            AND m.id NOT IN (
                 SELECT c.medico.id FROM Consulta c
                 WHERE c.data = :data
                 AND c.motivoCancelamento IS NULL
             )
             ORDER BY RAND()
             LIMIT 1
-""")
+            """)
     Doctor choseRaondomDoctorOnDate(Specialism especialidade, LocalDateTime data);
-
 
     @Query("""
             SELECT m.ativo
