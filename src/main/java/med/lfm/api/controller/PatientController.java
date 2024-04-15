@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-
 import med.lfm.api.domain.patient.Patient;
 import med.lfm.api.domain.patient.PatientDetailsDTO;
 import med.lfm.api.domain.patient.PatientListingDTO;
@@ -28,6 +28,7 @@ import med.lfm.api.domain.patient.PatientUpdateDTO;
 
 @RestController
 @RequestMapping("pacientes")
+@SecurityRequirement(name = "bearer-key") 
 public class PatientController {
 
     @Autowired

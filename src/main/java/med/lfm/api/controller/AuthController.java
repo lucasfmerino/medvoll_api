@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import med.lfm.api.domain.user.AuthDTO;
 import med.lfm.api.domain.user.User;
-import med.lfm.api.infra.security.TokenService;
 import med.lfm.api.infra.security.TokenDTO;
+import med.lfm.api.infra.security.TokenService;
 
 @RestController
 @RequestMapping("/login")
