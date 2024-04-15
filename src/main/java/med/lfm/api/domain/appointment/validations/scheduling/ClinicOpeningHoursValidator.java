@@ -1,4 +1,4 @@
-package med.lfm.api.domain.appointment.validations;
+package med.lfm.api.domain.appointment.validations.scheduling;
 
 import java.time.DayOfWeek;
 

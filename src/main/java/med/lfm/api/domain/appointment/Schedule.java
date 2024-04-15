@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import med.lfm.api.domain.ValidationException;
-import med.lfm.api.domain.appointment.validations.AppointmentValidator;
+import med.lfm.api.domain.appointment.validations.cancellation.AppointmentCancellationValidator;
+import med.lfm.api.domain.appointment.validations.scheduling.AppointmentValidator;
 import med.lfm.api.domain.doctor.Doctor;
 import med.lfm.api.domain.doctor.DoctorRepository;
 import med.lfm.api.domain.patient.PatientRepository;
@@ -25,6 +26,9 @@ public class Schedule {
 
     @Autowired
     private List<AppointmentValidator> validators;
+
+    @Autowired
+    private List<AppointmentCancellationValidator> validatorsCancellation;
 
     public AppointmentDetailsDTO toSchedule(AppointmentSchedulingDTO data) {
 
@@ -45,14 +49,13 @@ public class Schedule {
             throw new ValidationException("Não existe méidco disponível nessa data.");
         }
 
-        var appointment = new Appointment(null, doctor , patient, data.data(), null);
+        var appointment = new Appointment(null, doctor, patient, data.data(), null);
 
         appointmentRepository.save(appointment);
 
         return new AppointmentDetailsDTO(appointment);
 
     }
-
 
     private Doctor chooseDoctor(AppointmentSchedulingDTO data) {
         if (data.idMedico() != null) {
@@ -66,12 +69,13 @@ public class Schedule {
         return doctorRepository.choseRaondomDoctorOnDate(data.especialidade(), data.data());
     }
 
-
     public void cancel(CancelingAppointmentDTO data) {
         if (!appointmentRepository.existsById(data.idConsulta())) {
             throw new ValidationException("Id da consulta informado não existe!");
         }
-    
+
+        validatorsCancellation.forEach(v -> v.validate(data));
+
         var consulta = appointmentRepository.getReferenceById(data.idConsulta());
         consulta.cancel(data.motivo());
     }

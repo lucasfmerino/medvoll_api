@@ -1,4 +1,4 @@
-package med.lfm.api.domain.appointment.validations;
+package med.lfm.api.domain.appointment.validations.scheduling;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import med.lfm.api.domain.ValidationException;
 import med.lfm.api.domain.appointment.AppointmentSchedulingDTO;
 
-@Component
+@Component("SchedulingAdvanceTimeValidator")
 public class AdvanceTimeValidator implements AppointmentValidator {
 
     public void validate(AppointmentSchedulingDTO data) {
